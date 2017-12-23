@@ -3,5 +3,6 @@ GBR 5_0,n_estimators=230,learning_rate=0.1,max_depth=2,rmse=21769
 GBR 8_1,n_estimators=450,learning_rate=0.1,max_depth=2,subsample=0.5 rmse=20876
 KRR 8_1,alpha=4,coef0=4,degree=3,kernel="polynomial" rmse=22411
 Lasso 8_1,alpha=722 rmse=28056
+ENR 8_1 alpha=0.2,l1_ratio=0.5 rmse=29607
 
-加权平均最优结果：rmse=19949
+加权平均最优结果：rmse=19688
