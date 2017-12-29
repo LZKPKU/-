@@ -1,0 +1,41 @@
+bsmt_height:BsmtQual
+exterior_quality:ExterQual
+exterior_condition:ExterCond
+bsmt_condition:BsmtCond
+bsmt_exposure:BsmtExposure
+bsmt_finished1:BsmtFinType1
+bsmt_finished2:BsmtFinType2
+
+train['BsmtFinishedShare'] = 1 - train['BsmtUnfSF']/train['TotalBsmtSF']
+
+heating_quality:HeatingQC
+kitchen_quality:KitchenQual
+home_funct:functional
+fireplace_quality:FireplaceQu
+
+train['fireplace_ttlscore'] = train['Fireplaces'] * train['fireplace_quality']
+
+gar_qual:GarageQual
+gar_cond:GarageCond
+
+train['gar_perception'] = train['gar_qual'] * train['gar_cond']
+
+driveway:PavedDrive
+fence:Fence
+
+train['full_baths'] = train['BsmtFullBath'] + train['FullBath']
+
+train['half_baths'] = train['BsmtHalfBath'] + train['HalfBath']
+集合四个属性然后标准化
+temp = train[['exterior_quality', 'heating_quality', 'kitchen_quality', 'OverallQual', 'bsmt_height']]
+scaler = StandardScaler()
+temp_scaled = pd.DataFrame(scaler.fit_transform(temp), columns=temp.columns)
+train['average_quality'] = temp_scaled.mean(axis = 1)
+
+train['room_size'] = train['GrLivArea'] / train['TotRmsAbvGrd']
+
+train['age'] = train['YrSold'] - train['YearBuilt']
+
+# giving more weight to the number of cars in the garage: GarageCars 
+train['garage_perception'] = (train['gar_type'] + 2*train['GarageCars'] + train['gar_finish'])/3
+
